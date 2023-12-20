@@ -8,6 +8,7 @@
         private bool isFriend;
         private int health;
         private int damage;
+        
 
         public Character(string name, int x, int y, bool isFriend, int health, int damage)
         {
@@ -19,7 +20,58 @@
             this.damage = damage;
         }
 
-        public void Info()
+        public void PerformAction(ActionType action, object parameter)
+        {
+            switch (action)
+            {
+                case ActionType.MoveX:
+                    MoveX((int)parameter);
+                    
+                    break;
+                
+                case ActionType.MoveY:
+                    MoveY((int)parameter);
+                    
+                    break;
+                
+                case ActionType.InfoLictDamage:
+                    if (true)
+                    {
+                        InfoLictDamage((Character)parameter);
+                    }
+                    break;
+                
+                case ActionType.Heal:
+                    Heal((int)parameter);
+                    break;
+                case ActionType.FullHeal:
+                    FullHealAgain();
+                    break;
+                case ActionType.ChangeCamp:
+                    ChangeCamp();
+                    break;
+                case ActionType.Info:
+                    Info();
+                    break;
+                case ActionType.Destroy:
+                    Destroy();
+                    break;
+                        
+                
+                    
+                
+                
+                
+            }
+        }
+        
+        
+        public enum ActionType
+        {
+            MoveX, MoveY, InfoLictDamage, Heal, FullHeal, ChangeCamp,Info, Destroy
+        }
+        
+        private void Info()
         {
             Console.WriteLine($"Имя: {name}");
             Console.WriteLine($"Координаты: ({x}, {y})");
@@ -28,22 +80,22 @@
             Console.WriteLine($"Урон: {damage}");
         }
 
-        public void MoveX(int dx)
+        private void MoveX(int dx)
         {
-            x += dx;
+            x = dx;
         }
 
-        public void MoveY(int dy)
+        private void MoveY(int dy)
         {
-            y += dy;
+            y = dy;
         }
 
-        public void Destroy()
+        private void Destroy()
         {
             health = 0;
         }
 
-        public void InfoLictDamage(int damage, Character target)
+        private void InfoLictDamage(Character target)
         {
             if (isFriend != target.isFriend)
             {
@@ -58,7 +110,7 @@
             }
         }
 
-        public void Heal(int amount)
+        private void Heal(int amount)
         {
             if (health > 0)
             {
@@ -66,20 +118,20 @@
             }
         }
 
-        public void FullHealAgain()
+        private void FullHealAgain()
         {
             health = 100;
         }
 
-        public void ChangeCamp()
+        private void ChangeCamp()
         {
             isFriend = !isFriend;
         }
 
-        public bool IsFriend()
-        {
-            return isFriend;
-        }
+        // public bool IsFriend()
+        // {
+        //     return isFriend;
+        // }
 
         public int GetDamage()
         {
@@ -90,6 +142,8 @@
         {
             return health > 0;
         }
+
+        
     }
 
     

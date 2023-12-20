@@ -66,7 +66,7 @@ class Game
                     {
                         if (characters[characterIndex].IsAlive())
                         {
-                            characters[characterIndex].Info();
+                            characters[characterIndex].PerformAction(Character.ActionType.Info, characterIndex);
                         }
                         else
                         {
@@ -86,7 +86,7 @@ class Game
                     {
                         Console.Write("Введите координату X: ");
                         int dx = int.Parse(Console.ReadLine());
-                        characters[characterIndex].MoveX(dx);
+                        characters[characterIndex].PerformAction(Character.ActionType.MoveX, dx);
                     }
                     else
                     {
@@ -100,7 +100,7 @@ class Game
                     {
                         Console.Write("Введите координату Y: ");
                         int dy = int.Parse(Console.ReadLine());
-                        characters[characterIndex].MoveY(dy);
+                        characters[characterIndex].PerformAction(Character.ActionType.MoveY, dy);
                     }
                     else
                     {
@@ -112,7 +112,7 @@ class Game
                     characterIndex = int.Parse(Console.ReadLine()) - 1;
                     if (characterIndex >= 0 && characterIndex < numberOfCharacters)
                     {
-                        characters[characterIndex].Destroy();
+                        characters[characterIndex].PerformAction(Character.ActionType.Destroy, characterIndex);
                     }
                     else
                     {
@@ -128,7 +128,7 @@ class Game
                         int targetIndex = int.Parse(Console.ReadLine()) - 1;
                         if (targetIndex >= 0 && targetIndex < numberOfCharacters && characters[targetIndex].IsAlive())
                         {
-                            characters[attackerIndex].InfoLictDamage(characters[attackerIndex].GetDamage(), characters[targetIndex]);
+                            characters[attackerIndex].PerformAction(Character.ActionType.InfoLictDamage, characters[targetIndex]);
                         }
                         else
                         {
@@ -147,7 +147,7 @@ class Game
                     {
                         Console.Write("Введите количество получаемого лечения: ");
                         int healing = int.Parse(Console.ReadLine());
-                        characters[characterIndex].Heal(healing);
+                        characters[characterIndex].PerformAction(Character.ActionType.Heal, healing);
                     }
                     else
                     {
@@ -159,7 +159,7 @@ class Game
                     characterIndex = int.Parse(Console.ReadLine()) - 1;
                     if (characterIndex >= 0 && characterIndex < numberOfCharacters)
                     {
-                        characters[characterIndex].FullHealAgain();
+                        characters[characterIndex].PerformAction(Character.ActionType.FullHeal, characterIndex);
                     }
                     else
                     {
@@ -171,7 +171,7 @@ class Game
                     characterIndex = int.Parse(Console.ReadLine()) - 1;
                     if (characterIndex >= 0 && characterIndex < numberOfCharacters)
                     {
-                        characters[characterIndex].ChangeCamp();
+                        characters[characterIndex].PerformAction(Character.ActionType.ChangeCamp, characterIndex);
                     }
                     else
                     {
