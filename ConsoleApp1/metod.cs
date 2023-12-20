@@ -204,8 +204,8 @@ namespace metod
         private void StartBattle(Character character1, Character character2) {
             while (true) {
                 
-                character1.GetDamage();
-                character2.GetDamage();
+                character1.InfoLictDamage(character2);
+                character2.InfoLictDamage(character1);
                 Console.WriteLine($"Игрок 1: Здоровье {character1.health}, Урон {character1.damage}");
                 Console.WriteLine($"Игрок 2: Здоровье {character2.health}, Урон {character2.damage}");
                 
