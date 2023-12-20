@@ -45,7 +45,7 @@ class Game
             Console.WriteLine("2. Переместить игрока по горизонтали ");
             Console.WriteLine("3. Переместить игрока по вертикали ");
             Console.WriteLine("4. Уничтожить игрока ");
-            Console.WriteLine("5. Нанести урон игроку ");
+            
             Console.WriteLine("6. Лечение игрока ");
             Console.WriteLine("7. Полное восстановление здоровья игрока ");
             Console.WriteLine("8. Изменить лагерь игрока ");
@@ -87,6 +87,7 @@ class Game
                         Console.Write("Введите координату X: ");
                         int dx = int.Parse(Console.ReadLine());
                         characters[characterIndex].PerformAction(Character.ActionType.MoveX, dx);
+                        characters[characterIndex].CheckForBattle(characters);
                     }
                     else
                     {
@@ -101,6 +102,7 @@ class Game
                         Console.Write("Введите координату Y: ");
                         int dy = int.Parse(Console.ReadLine());
                         characters[characterIndex].PerformAction(Character.ActionType.MoveY, dy);
+                        characters[characterIndex].CheckForBattle(characters);
                     }
                     else
                     {
