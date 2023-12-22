@@ -158,7 +158,7 @@ namespace metod
 
         public bool IsAlive()
         {
-            return health > 0;
+            return health > 1;
         }
 
         public void CheckForBattle(Character[] characters)
@@ -167,18 +167,21 @@ namespace metod
             {
                 for (int j = i + 1; j < characters.Length; j++)
                 {
-
                     if (!characters[i].IsAlive() || !characters[j].IsAlive())
                     {
                         continue;
                     }
-
+                    
                     if (characters[i].x == characters[j].x && characters[i].y == characters[j].y)
                     {
-                        Console.WriteLine($"Битва начинается между игроком {i + 1} и игроком {j + 1}!");
-                        StartBattle(characters[i], characters[j]);
+                        if (characters[i].IsFriend() != characters[j].IsFriend())
+                        {
+                            Console.WriteLine($"Битва начинается между игроком {i + 1} и игроком {j + 1}!");
+                            StartBattle(characters[i], characters[j]);
+                        }
                     }
 
+                    
                 }
             }
         }
@@ -187,26 +190,12 @@ namespace metod
         {
             while (true)
             {
-                if (character1.IsFriend == character2.IsFriend)
-                {
-                    Console.WriteLine(
-                        "Персонажи находятся в одинаковых лагерях и не могут воевать друг с другом. расход.");
-                    break;
-                }
-
-                else
+                if (character1.IsFriend != character2.IsFriend)
                 {
                     character1.InfoLictDamage(character2);
                     character2.InfoLictDamage(character1);
                     Console.WriteLine($"Игрок 1: Здоровье {character1.health}, Урон {character1.damage}");
                     Console.WriteLine($"Игрок 2: Здоровье {character2.health}, Урон {character2.damage}");
-
-                    if (!character1.IsAlive() || !character2.IsAlive())
-                    {
-                        Console.WriteLine(character1.IsAlive() ? "Игрок 1 победил!" : "Игрок 2 победил!");
-                        break;
-                    }
-
                     Console.WriteLine("Продолжить битву (да/нет)?");
                     string userChoice = Console.ReadLine();
                     if (userChoice.Equals("нет", StringComparison.OrdinalIgnoreCase))
@@ -215,14 +204,16 @@ namespace metod
                         int retreatX = int.Parse(Console.ReadLine());
                         Console.Write("Введите координату Y для отступления: ");
                         int retreatY = int.Parse(Console.ReadLine());
-
                         character1.MoveX(retreatX);
                         character1.MoveY(retreatY);
-
                         break;
-
-
                     }
+                    if (!character1.IsAlive() || !character2.IsAlive())
+                    {
+                        Console.WriteLine(character1.IsAlive() ? "Игрок 1 победил!" : "Игрок 2 победил!");
+                        break;
+                    }
+                    
                 }
             }
         }

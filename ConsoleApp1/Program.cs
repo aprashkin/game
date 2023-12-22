@@ -3,14 +3,15 @@ using System;
 
 namespace ConsoleApp1
 {
-    class Game
+    class  Game
     {
         static void Main(string[] args)
         {
             Console.Write("Введите количество игроков: ");
             int numberOfCharacters = ReadInt();
             Character[] characters = new Character[numberOfCharacters];
-
+            
+            
             for (int i = 0; i < numberOfCharacters; i++)
             {
                 Console.WriteLine($"Игрок {i + 1}:");
@@ -20,6 +21,7 @@ namespace ConsoleApp1
                 int characterX = ReadInt();
                 Console.Write("Введите Y координату: ");
                 int characterY = ReadInt();
+                
                 Console.Write("Является ли другом (true/false): ");
                 bool isFriend = ReadBool();
                 Console.Write("Количество здоровья: ");
