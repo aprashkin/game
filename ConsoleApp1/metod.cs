@@ -59,6 +59,9 @@ namespace metod
                 case ActionType.Destroy:
                     Destroy();
                     break;
+                case ActionType.CheckForBattle:
+                    CheckForBattle((Character[])parameter);
+                    break;
 
 
 
@@ -150,34 +153,7 @@ namespace metod
             return damage;
         }
 
-        // private void Attack(Character target) 
-        // {
-        //     if (!IsAlive() || !target.IsAlive()) 
-        //     {
-        //         Console.WriteLine("Один из персонажей мертв и не может участвовать в бою.");
-        //         return;
-        //     }
-        //
-        //     if (IsFriend == target.IsFriend) 
-        //     {
-        //         Console.WriteLine("Персонажи из одного лагеря и не могут атаковать друг друга.");
-        //         return;
-        //     }
-        //
-        //     if (x != target.x || this.y != target.y) 
-        //     {
-        //         Console.WriteLine("Персонажи находятся в разных местах и не могут атаковать друг друга.");
-        //         return;
-        //     }
-        //
-        //     
-        //     target.health -= damage;
-        //     Console.WriteLine($"{name} атакует {target.name} и наносит {damage} урона.");
-        //
-        //     if (!target.IsAlive()) {
-        //         Console.WriteLine($"{target.name} был уничтожен.");
-        //     }
-        // }
+        
 
 
         public bool IsAlive()
@@ -211,13 +187,13 @@ namespace metod
         {
             while (true)
             {
-                if (character1.IsFriend != character2.IsFriend)
+                if (character1.IsFriend == character2.IsFriend)
                 {
                     Console.WriteLine(
                         "Персонажи находятся в одинаковых лагерях и не могут воевать друг с другом. расход.");
                     break;
                 }
-                
+
                 else
                 {
                     character1.InfoLictDamage(character2);
@@ -242,6 +218,7 @@ namespace metod
 
                         character1.MoveX(retreatX);
                         character1.MoveY(retreatY);
+
                         break;
 
 
@@ -251,10 +228,10 @@ namespace metod
         }
     }
 }
-        
-    
-    
-    
+
+
+
+
 
 
 

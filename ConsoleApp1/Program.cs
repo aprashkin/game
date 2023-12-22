@@ -1,193 +1,135 @@
 ﻿using metod;
+using System;
 
-namespace ConsoleApp1;
-
-class Game
+namespace ConsoleApp1
 {
-    static void Main(string[] args)
+    class Game
     {
-
-        Console.Write("Введите количество игроков: ");
-        int numberOfCharacters = int.Parse(Console.ReadLine());
-
-        Character[] characters = new Character[numberOfCharacters];
-
-        for (int i = 0; i < numberOfCharacters; i++)
+        static void Main(string[] args)
         {
-            Console.WriteLine($"Игрок {i + 1}:");
+            Console.Write("Введите количество игроков: ");
+            int numberOfCharacters = ReadInt();
+            Character[] characters = new Character[numberOfCharacters];
 
-            Console.Write("Введите имя: ");
-            string characterName = Console.ReadLine();
-
-            Console.Write("Введите X координату: ");
-            int characterX = int.Parse(Console.ReadLine());
-
-            Console.Write("Введите Y координату: ");
-            int characterY = int.Parse(Console.ReadLine());
-
-            Console.Write("Является ли другом (true/false): ");
-            bool isFriend = bool.Parse(Console.ReadLine());
-
-            Console.Write("Количество здоровья: ");
-            int characterHealth = int.Parse(Console.ReadLine());
-
-            Console.Write("Наносимый урон: ");
-            int characterDamage = int.Parse(Console.ReadLine());
-            Console.WriteLine();
-
-            characters[i] = new Character(characterName, characterX, characterY, isFriend, characterHealth, characterDamage);
-        }
-
-        int userChoice;
-        do
-        {
-            Console.WriteLine("1. Вывести информацию об игроке ");
-            Console.WriteLine("2. Переместить игрока по горизонтали ");
-            Console.WriteLine("3. Переместить игрока по вертикали ");
-            Console.WriteLine("4. Уничтожить игрока ");
-            
-            Console.WriteLine("6. Лечение игрока ");
-            Console.WriteLine("7. Полное восстановление здоровья игрока ");
-            Console.WriteLine("8. Изменить лагерь игрока ");
-            Console.WriteLine("0. Выход");
-
-            Console.Write("\n Выберите действие: ");
-            userChoice = int.Parse(Console.ReadLine());
-
-            int characterIndex;
-
-            switch (userChoice)
+            for (int i = 0; i < numberOfCharacters; i++)
             {
-                case 1:
-                    
-                    Console.Write("Введите номер игрока: ");
-                    characterIndex = int.Parse(Console.ReadLine()) - 1;
-                    if (characterIndex >= 0 && characterIndex < numberOfCharacters)
-                    {
-                        if (characters[characterIndex].IsAlive())
-                        {
-                            characters[characterIndex].PerformAction(Character.ActionType.Info, characterIndex);
-                        }
-                        else
-                        {
-                            Console.WriteLine("Игрок уничтожен");
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("Некорректный номер игрока");
-                    }
-                    
-                    break;
-                case 2:
-                    Console.Write("Введите номер игрока: ");
-                    characterIndex = int.Parse(Console.ReadLine()) - 1;
-                    if (characterIndex >= 0 && characterIndex < numberOfCharacters)
-                    {
-                        Console.Write("Введите координату X: ");
-                        int dx = int.Parse(Console.ReadLine());
-                        characters[characterIndex].PerformAction(Character.ActionType.MoveX, dx);
-                        characters[characterIndex].CheckForBattle(characters);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Некорректный номер игрока.");
-                    }
-                    break;
-                case 3:
-                    Console.Write("Введите номер игрока: ");
-                    characterIndex = int.Parse(Console.ReadLine()) - 1;
-                    if (characterIndex >= 0 && characterIndex < numberOfCharacters)
-                    {
-                        Console.Write("Введите координату Y: ");
-                        int dy = int.Parse(Console.ReadLine());
-                        characters[characterIndex].PerformAction(Character.ActionType.MoveY, dy);
-                        characters[characterIndex].CheckForBattle(characters);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Некорректный номер игрока.");
-                    }
-                    break;
-                case 4:
-                    Console.Write("Введите номер игрока: ");
-                    characterIndex = int.Parse(Console.ReadLine()) - 1;
-                    if (characterIndex >= 0 && characterIndex < numberOfCharacters)
-                    {
-                        characters[characterIndex].PerformAction(Character.ActionType.Destroy, characterIndex);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Некорректный номер игрока.");
-                    }
-                    break;
-                case 5:
-                    Console.Write("Введите номер игрока, наносящего урон: ");
-                    int attackerIndex = int.Parse(Console.ReadLine()) - 1;
-                    if (attackerIndex >= 0 && attackerIndex < numberOfCharacters && characters[attackerIndex].IsAlive())
-                    {
-                        Console.Write("Введите номер врага: ");
-                        int targetIndex = int.Parse(Console.ReadLine()) - 1;
-                        if (targetIndex >= 0 && targetIndex < numberOfCharacters && characters[targetIndex].IsAlive())
-                        {
-                            characters[attackerIndex].PerformAction(Character.ActionType.InfoLictDamage, characters[targetIndex]);
-                        }
-                        else
-                        {
-                            Console.WriteLine("Некорректный номер врага или враг уже уничтожен");
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("Некорректный номер игрока-атакующего или атакующий уже уничтожен.");
-                    }
-                    break;
-                case 6:
-                    Console.Write("Введите номер игрока: ");
-                    characterIndex = int.Parse(Console.ReadLine()) - 1;
-                    if (characterIndex >= 0 && characterIndex < numberOfCharacters)
-                    {
-                        Console.Write("Введите количество получаемого лечения: ");
-                        int healing = int.Parse(Console.ReadLine());
-                        characters[characterIndex].PerformAction(Character.ActionType.Heal, healing);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Некорректный номер игрока.");
-                    }
-                    break;
-                case 7:
-                    Console.Write("Введите номер игрока: ");
-                    characterIndex = int.Parse(Console.ReadLine()) - 1;
-                    if (characterIndex >= 0 && characterIndex < numberOfCharacters)
-                    {
-                        characters[characterIndex].PerformAction(Character.ActionType.FullHeal, characterIndex);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Некорректный номер игрока.");
-                    }
-                    break;
-                case 8:
-                    Console.Write("Введите номер игрока: ");
-                    characterIndex = int.Parse(Console.ReadLine()) - 1;
-                    if (characterIndex >= 0 && characterIndex < numberOfCharacters)
-                    {
-                        characters[characterIndex].PerformAction(Character.ActionType.ChangeCamp, characterIndex);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Некорректный номер игрока.");
-                    }
-                    break;
-                case 0:
-                    Console.WriteLine("Выход из программы.");
-                    break;
-                default:
-                    Console.WriteLine("Некорректный выбор. Попробуйте снова.");
-                    break;
+                Console.WriteLine($"Игрок {i + 1}:");
+                Console.Write("Введите имя: ");
+                string characterName = Console.ReadLine();
+                Console.Write("Введите X координату: ");
+                int characterX = ReadInt();
+                Console.Write("Введите Y координату: ");
+                int characterY = ReadInt();
+                Console.Write("Является ли другом (true/false): ");
+                bool isFriend = ReadBool();
+                Console.Write("Количество здоровья: ");
+                int characterHealth = ReadInt();
+                Console.Write("Наносимый урон: ");
+                int characterDamage = ReadInt();
+                Console.WriteLine();
+                characters[i] = new Character(characterName, characterX, characterY, isFriend, characterHealth, characterDamage);
             }
 
-        } while (userChoice != 0);
+
+
+            int selectedCharacterIndex = -1;
+            while (true)
+            {
+                Console.WriteLine("\nВыберите персонажа (номер от 1 до " + numberOfCharacters + ") или 0 для выхода:");
+                selectedCharacterIndex = ReadInt() - 1;
+
+                characters[selectedCharacterIndex].PerformAction(Character.ActionType.CheckForBattle, characters);
+
+                if (selectedCharacterIndex == -1)
+                {
+                    break;
+                }
+
+                if (selectedCharacterIndex >= 0 && selectedCharacterIndex < numberOfCharacters && characters[selectedCharacterIndex].IsAlive())
+                {
+                    int actionChoice;
+                    do
+                    {
+                        Console.WriteLine("\nВыберите действие для персонажа " + (selectedCharacterIndex + 1) + ":");
+                        Console.WriteLine("1. Вывести информацию об игроке");
+                        Console.WriteLine("2. Переместить игрока по горизонтали");
+                        Console.WriteLine("3. Переместить игрока по вертикали");
+                        Console.WriteLine("4. Уничтожить игрока");
+                        Console.WriteLine("5. Лечение игрока");
+                        Console.WriteLine("6. Полное восстановление здоровья игрока");
+                        Console.WriteLine("7. Изменить лагерь игрока");
+                        Console.WriteLine("0. Выход");
+
+                        Console.Write("\nВаш выбор: ");
+                        actionChoice = ReadInt();
+
+                        switch (actionChoice)
+                        {
+                            case 1:
+                                characters[selectedCharacterIndex].PerformAction(Character.ActionType.Info, null);
+                                break;
+                            case 2:
+                                Console.Write("Введите координату X: ");
+                                int dx = ReadInt();
+                                characters[selectedCharacterIndex].PerformAction(Character.ActionType.MoveX, dx);
+                                characters[selectedCharacterIndex].PerformAction(Character.ActionType.CheckForBattle, characters);
+                                break;
+
+                            case 3:
+                                Console.Write("Введите координату Y: ");
+                                int dy = ReadInt();
+                                characters[selectedCharacterIndex].PerformAction(Character.ActionType.MoveY, dy);
+                                characters[selectedCharacterIndex].PerformAction(Character.ActionType.CheckForBattle, characters);
+                                break;
+                            case 4:
+                                characters[selectedCharacterIndex].PerformAction(Character.ActionType.Destroy, null);
+                                break;
+                            case 5:
+                                Console.Write("Введите количество здоровья для лечения: ");
+                                int healAmount = ReadInt(); characters[selectedCharacterIndex].PerformAction(Character.ActionType.Heal, healAmount);
+                                characters[selectedCharacterIndex].PerformAction(Character.ActionType.CheckForBattle, characters);
+                                break;
+                            case 6:
+                                characters[selectedCharacterIndex].PerformAction(Character.ActionType.FullHeal, null);
+                                characters[selectedCharacterIndex].PerformAction(Character.ActionType.CheckForBattle, characters);
+                                break;
+                            case 7:
+                                characters[selectedCharacterIndex].PerformAction(Character.ActionType.ChangeCamp, null);
+                                characters[selectedCharacterIndex].PerformAction(Character.ActionType.CheckForBattle, characters);
+                                break;
+                            case 8:
+                                characters[selectedCharacterIndex].PerformAction(Character.ActionType.CheckForBattle, characters);
+                                break;
+                        }
+                    } while (actionChoice != 0);
+                }
+                else
+                {
+                    Console.WriteLine("Некорректный номер персонажа или персонаж умер. Выберите другого персонажа");
+                }
+                characters[selectedCharacterIndex].PerformAction(Character.ActionType.CheckForBattle, characters);
+            }
+        }
+
+        private static int ReadInt()
+        {
+            int result;
+            while (!int.TryParse(Console.ReadLine(), out result))
+            {
+                Console.WriteLine("Некорректный ввод. Пожалуйста, введите число.");
+            }
+            return result;
+        }
+
+        private static bool ReadBool()
+        {
+            bool result;
+            while (!bool.TryParse(Console.ReadLine(), out result))
+            {
+                Console.WriteLine("Некорректный ввод. Введите 'true' или 'false'.");
+            }
+            return result;
+        }
     }
 }
+
