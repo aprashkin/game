@@ -158,7 +158,7 @@ namespace metod
 
         public bool IsAlive()
         {
-            return health > 1;
+            return health > 0;
         }
 
         public void CheckForBattle(Character[] characters)
@@ -188,6 +188,7 @@ namespace metod
 
         private void StartBattle(Character character1, Character character2)
         {
+            
             while (true)
             {
                 if (character1.IsFriend != character2.IsFriend)
@@ -196,6 +197,20 @@ namespace metod
                     character2.InfoLictDamage(character1);
                     Console.WriteLine($"Игрок 1: Здоровье {character1.health}, Урон {character1.damage}");
                     Console.WriteLine($"Игрок 2: Здоровье {character2.health}, Урон {character2.damage}");
+                    if (character2.health <= 0 && character1.health <= 0)
+                    {
+                        Console.WriteLine("Ничья. Все игроки, учавствовавшие в битве умерли(");
+                        break;
+                    }
+                    else
+                    {
+                        if (!character1.IsAlive() || !character2.IsAlive())
+                        {
+                            Console.WriteLine(character1.IsAlive() ? "Игрок 1 победил!" : "Игрок 2 победил!");
+                            break;
+                        }
+                    
+                    }
                     Console.WriteLine("Продолжить битву (да/нет)?");
                     string userChoice = Console.ReadLine();
                     if (userChoice.Equals("нет", StringComparison.OrdinalIgnoreCase))
@@ -208,18 +223,12 @@ namespace metod
                         character1.MoveY(retreatY);
                         break;
                     }
-                    if (!character1.IsAlive() || !character2.IsAlive())
-                    {
-                        Console.WriteLine(character1.IsAlive() ? "Игрок 1 победил!" : "Игрок 2 победил!");
-                        break;
-                    }
                     
                 }
             }
         }
     }
 }
-
 
 
 
